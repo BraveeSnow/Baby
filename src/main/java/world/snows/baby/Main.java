@@ -1,8 +1,6 @@
 package world.snows.baby;
 
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +21,10 @@ public class Main {
             LOGGER.debug("Successfully read from file '{}'", args[0]);
 
             Lexer lex = new BabyLexer(stream);
+            TokenStream tokens = new BufferedTokenStream(lex);
+            BabyParser baby = new BabyParser(tokens);
+
+            baby.program().exp.evaluate(new Interpreter());
         } catch (IOException e) {
             LOGGER.error("Unable to read from file '{}': it does not exist", args[0]);
         }
