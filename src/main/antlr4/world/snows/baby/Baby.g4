@@ -13,7 +13,7 @@ literal returns [Expression exp]
     ;
 
 expression returns [Expression exp]
-    : 'ima' 'turn' ('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp); }
+    : 'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp, $cn.text); }
     | 'gimme' 'some' expression { $exp = new Returnable($expression.exp); }
     | literal { $exp = $literal.exp; }
     | ID { $exp = new Dereference($ID.text); }
