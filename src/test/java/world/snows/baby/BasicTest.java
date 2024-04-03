@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
-public class Basic {
+public class BasicTest {
     private static final InputStream PROGRAM = Thread.currentThread().getContextClassLoader().getResourceAsStream("basic.baby");
 
     @BeforeAll
