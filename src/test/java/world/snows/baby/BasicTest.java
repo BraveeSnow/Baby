@@ -7,7 +7,6 @@ import org.antlr.v4.runtime.TokenStream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -20,7 +19,7 @@ public class BasicTest {
     }
 
     @Test
-    void runBasic() throws IOException {
+    void runBasic() throws Exception {
         Lexer lex = new BabyLexer(CharStreams.fromStream(Objects.requireNonNull(PROGRAM)));
         TokenStream tokens = new BufferedTokenStream(lex);
         BabyParser parser = new BabyParser(tokens);

@@ -11,7 +11,7 @@ public class Returnable implements Expression {
     }
 
     @Override
-    public Value<? extends Value<?>> evaluate(Interpreter inter) {
+    public Value<? extends Value<?>> evaluate(Interpreter inter) throws Exception {
         return returnable.evaluate(inter);
     }
 }

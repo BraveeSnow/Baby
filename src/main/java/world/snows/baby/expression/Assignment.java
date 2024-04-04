@@ -24,7 +24,7 @@ public class Assignment implements Expression {
     }
 
     @Override
-    public Value<? extends Value<?>> evaluate(Interpreter inter) {
+    public Value<? extends Value<?>> evaluate(Interpreter inter) throws Exception {
         // walrus operator type assignment
         Value<? extends Value<?>> val = assignable.evaluate(inter);
         inter.assignSymbol(identifier, val);

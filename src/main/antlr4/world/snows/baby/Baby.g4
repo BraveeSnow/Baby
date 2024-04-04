@@ -12,22 +12,23 @@ literal returns [Expression exp]
     | STRING { $exp = new StringLiteral($STRING.text); }
     ;
 
-expression returns [Expression exp]
-    : 'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp, $cn.text); }
-    | 'gimme' 'some' expression { $exp = new Returnable($expression.exp); }
-    | literal { $exp = $literal.exp; }
-    | ID { $exp = new Dereference($ID.text); }
-    ;
-
 comparison returns [Comparator cmp]
     : 'be' { $cmp = Comparator.EQUAL; }
     | 'more' 'than' { $cmp = Comparator.GREATER; }
     | 'less' 'than' { $cmp = Comparator.LESS; }
     ;
 
+expression returns [Expression exp]
+    : 'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp, $cn.text); }
+    | expression comparison expression {  }
+    | 'gimme' 'some' expression { $exp = new Returnable($expression.exp); }
+    | literal { $exp = $literal.exp; }
+    | ID { $exp = new Dereference($ID.text); }
+    ;
+
 conditional returns [Expression exp]
     : { List<Expression> exprs = new ArrayList<>(); }
-      'if' expression comparison expression BOOL
+      'if' expression BOOL
       (statement { exprs.add($statement.exp); })*
       'yeah' { $exp = new Block(exprs); }
     ;

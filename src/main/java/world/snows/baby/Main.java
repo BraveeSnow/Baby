@@ -27,6 +27,8 @@ public class Main {
             baby.program().exp.evaluate(new Interpreter());
         } catch (IOException e) {
             LOGGER.error("Unable to read from file '{}': it does not exist", args[0]);
+        } catch (Exception e) {
+            LOGGER.error("Unable to evaluate expression: {}", e.getMessage());
         }
     }
 }

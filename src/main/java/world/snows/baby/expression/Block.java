@@ -13,8 +13,12 @@ public class Block implements Expression {
         expressions = exprs;
     }
 
+    public List<Expression> getBlock() {
+        return expressions;
+    }
+
     @Override
-    public Value<? extends Value<?>> evaluate(Interpreter inter) {
+    public Value<? extends Value<?>> evaluate(Interpreter inter) throws Exception {
         Value<? extends Value<?>> returnValue = new NullValue();
 
         for (Expression expr : expressions) {

@@ -6,6 +6,10 @@ public class BoolValue implements Value<BoolValue>{
 
     public BoolValue(boolean val) {value = val;}
 
+    public boolean isTrue() {
+        return value;
+    }
+
     @Override
     public BoolValue getValue() {
         return this;
