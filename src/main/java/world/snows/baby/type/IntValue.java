@@ -16,4 +16,7 @@ public class IntValue implements Value<IntValue>, Comparable<IntValue> {
     public int compareTo(IntValue intValue) {
         return Integer.compare(value, intValue.value);
     }
+
+    @Override
+    public String toString(){return String.valueOf(value);}
 }
