@@ -5,4 +5,7 @@ public class NullValue implements Value<NullValue> {
     public NullValue getValue() {
         throw new NullPointerException("Expression evaluated to null");
     }
+
+    @Override
+    public String toString(){ return "Null";}
 }

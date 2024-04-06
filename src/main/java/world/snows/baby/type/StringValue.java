@@ -11,4 +11,7 @@ public class StringValue implements Value<StringValue> {
     public StringValue getValue() {
         return this;
     }
+
+    @Override
+    public String toString(){return value;}
 }

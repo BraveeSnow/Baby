@@ -16,4 +16,7 @@ public class CharValue implements Value<CharValue>, Comparable<CharValue> {
     public int compareTo(CharValue charValue) {
         return Character.compare(value, charValue.value);
     }
+
+    @Override
+    public String toString() {return String.valueOf(value);}
 }
