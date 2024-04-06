@@ -22,6 +22,9 @@ expression returns [Expression exp]
     : 'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp, $cn.text); }
     | expression comparison expression {  }
     | 'gimme' 'some' expression { $exp = new Returnable($expression.exp); }
+    | { List<Expression> args = new ArrayList<>(); }
+      'tryna' ID 'with' (e1=expression { args.add($e1.exp); } (',' e2=expression { args.add($e2.exp); })*)? 'rn'
+      { $exp = new Invocation($ID.text, args); }
     | literal { $exp = $literal.exp; }
     | ID { $exp = new Dereference($ID.text); }
     ;
