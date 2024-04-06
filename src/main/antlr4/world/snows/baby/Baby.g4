@@ -5,6 +5,12 @@ import world.snows.baby.expression.*;
 import world.snows.baby.type.*;
 }
 
+@members {
+    private boolean capAsBool(String cap) {
+        return cap == "cap" ? false : true;
+    }
+}
+
 literal returns [Expression exp]
     : INT { $exp = new IntLiteral($INT.text); }
     | DOUBLE {$exp = new DoubleLiteral($DOUBLE.text);}
@@ -20,7 +26,6 @@ comparison returns [Comparator cmp]
 
 expression returns [Expression exp]
     : 'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp, $cn.text); }
-    | expression comparison expression {  }
     | 'gimme' 'some' expression { $exp = new Returnable($expression.exp); }
     | { List<Expression> args = new ArrayList<>(); }
       'tryna' ID 'with' (e1=expression { args.add($e1.exp); } (',' e2=expression { args.add($e2.exp); })*)? 'rn'
@@ -31,9 +36,9 @@ expression returns [Expression exp]
 
 conditional returns [Expression exp]
     : { List<Expression> exprs = new ArrayList<>(); }
-      'if' expression BOOL
+      'if' e1=expression cmp=comparison e2=expression cap=BOOL { Comparison c = new Comparison($cmp.cmp, $e1.exp, $e2.exp, capAsBool($cap.text)); }
       (statement { exprs.add($statement.exp); })*
-      'yeah' { $exp = new Block(exprs); }
+      'yeah' { $exp = new Conditional(c, exprs); }
     ;
 
 statement returns [Expression exp]
