@@ -16,6 +16,7 @@ literal returns [Expression exp]
     | DOUBLE {$exp = new DoubleLiteral($DOUBLE.text);}
     | CHAR { $exp = new CharLiteral($CHAR.text); }
     | STRING { $exp = new StringLiteral($STRING.text); }
+    | BOOL { $exp = new BoolLiteral($BOOL.text); }
     ;
 
 comparison returns [Comparator cmp]
@@ -26,6 +27,7 @@ comparison returns [Comparator cmp]
 
 expression returns [Expression exp]
     : 'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp, $cn.text); }
+    | e1=expression cmp=comparison e2=expression cap=BOOL { $exp = new Comparison($cmp.cmp, $e1.exp, $e2.exp, capAsBool($cap.text)); }
     | 'gimme' 'some' expression { $exp = new Returnable($expression.exp); }
     | { List<Expression> args = new ArrayList<>(); }
       'tryna' ID 'with' (e1=expression { args.add($e1.exp); } (',' e2=expression { args.add($e2.exp); })*)? 'rn'
@@ -36,14 +38,23 @@ expression returns [Expression exp]
 
 conditional returns [Expression exp]
     : { List<Expression> exprs = new ArrayList<>(); }
-      'if' e1=expression cmp=comparison e2=expression cap=BOOL { Comparison c = new Comparison($cmp.cmp, $e1.exp, $e2.exp, capAsBool($cap.text)); }
+      'if' cnd=expression
       (statement { exprs.add($statement.exp); })*
-      'yeah' { $exp = new Conditional(c, exprs); }
+      'yeah' { $exp = new Conditional($cnd.exp, exprs); }
+    ;
+
+loop returns [Expression exp]
+    : { List<Expression> exprs = new ArrayList<>(); }
+      'ima' 'do' 'this' 'rq'
+      (e=expression { exprs.add($e.exp); })*
+      'while' cnd=expression
+      { $exp = new Loop($cnd.exp, exprs); }
     ;
 
 statement returns [Expression exp]
     : expression { $exp = $expression.exp; }
     | conditional { $exp = $conditional.exp; }
+    | loop { $exp = $loop.exp; }
     ;
 
 program returns [Expression exp]
