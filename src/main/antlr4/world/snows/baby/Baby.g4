@@ -27,6 +27,11 @@ comparison returns [Comparator cmp]
 
 expression returns [Expression exp]
     : 'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp, $cn.text); }
+    | { List<String> args = new ArrayList<>(); List<Expression> body = new ArrayList<>();}
+          'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' 'function' 'with' (par1=ID { args.add($par1.text); } (',' par2=ID { args.add($par2.text); })*)?
+          (statement{ body.add($statement.exp); })+
+          'yeah'
+          {$exp = new FuncDeclare($ID.text, args, new Block(body));}
     | e1=expression cmp=comparison e2=expression cap=BOOL { $exp = new Comparison($cmp.cmp, $e1.exp, $e2.exp, capAsBool($cap.text)); }
     | 'gimme' 'some' expression { $exp = new Returnable($expression.exp); }
     | { List<Expression> args = new ArrayList<>(); }
