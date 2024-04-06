@@ -1,5 +1,6 @@
 package world.snows.baby.function;
 
+import world.snows.baby.Interpreter;
 import world.snows.baby.expression.Expression;
 import world.snows.baby.type.NullValue;
 import world.snows.baby.type.Value;
@@ -12,9 +13,9 @@ public class BufferOut extends Function {
     }
 
     @Override
-    public Value<? extends Value<?>> invoke(List<Expression> arguments) {
+    public Value<? extends Value<?>> invoke(Interpreter inter, List<Expression> arguments) throws Exception {
         for (Expression arg : arguments) {
-            System.out.print(arg);
+            System.out.print(arg.evaluate(inter));
             System.out.flush();
         }
 

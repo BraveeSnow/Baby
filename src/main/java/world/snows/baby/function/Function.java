@@ -1,5 +1,6 @@
 package world.snows.baby.function;
 
+import world.snows.baby.Interpreter;
 import world.snows.baby.expression.Expression;
 import world.snows.baby.type.Value;
 
@@ -12,5 +13,5 @@ public abstract class Function {
         parameters = args;
     }
 
-    public abstract Value<? extends Value<?>> invoke(List<Expression> expressions);
+    public abstract Value<? extends Value<?>> invoke(Interpreter inter, List<Expression> expressions) throws Exception;
 }

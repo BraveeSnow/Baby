@@ -17,7 +17,6 @@ public class Invocation implements Expression {
 
     @Override
     public Value<? extends Value<?>> evaluate(Interpreter inter) throws Exception {
-        System.out.println(identifier);
-        return Builtin.call(identifier, arguments);
+        return Builtin.call(inter, identifier, arguments);
     }
 }

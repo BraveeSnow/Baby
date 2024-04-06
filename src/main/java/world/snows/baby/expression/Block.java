@@ -22,7 +22,8 @@ public class Block implements Expression {
         Value<? extends Value<?>> returnValue = new NullValue();
 
         for (Expression expr : expressions) {
-            returnValue = expr instanceof Returnable ? expr.evaluate(inter) : returnValue;
+            Value<? extends Value<?>> val = expr.evaluate(inter);
+            returnValue = expr instanceof Returnable ? val : returnValue;
         }
 
         return returnValue;

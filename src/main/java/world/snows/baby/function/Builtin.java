@@ -1,5 +1,6 @@
 package world.snows.baby.function;
 
+import world.snows.baby.Interpreter;
 import world.snows.baby.expression.Expression;
 import world.snows.baby.type.Value;
 
@@ -15,13 +16,13 @@ public class Builtin {
         functions.put("print", new BufferOut());
     }
 
-    public static Value<? extends Value<?>> call(String identifier, List<Expression> args) {
+    public static Value<? extends Value<?>> call(Interpreter inter, String identifier, List<Expression> args) throws Exception {
         Function func = functions.get(identifier);
 
         if (func == null) {
             throw new NoSuchMethodError(String.format("Function '%s' does not exist", identifier));
         }
 
-        return func.invoke(args);
+        return func.invoke(inter, args);
     }
 }
