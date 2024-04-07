@@ -7,6 +7,18 @@ public class StringValue implements Value<StringValue> {
         value = val;
     }
 
+    public StringValue add(StringValue val) {
+        return new StringValue(value + val.value);
+    }
+
+    public StringValue add(IntValue val) {
+        return new StringValue(value + val.value);
+    }
+
+    public StringValue multiply(IntValue val) {
+        return new StringValue(value.repeat(val.value));
+    }
+
     @Override
     public StringValue getValue() {
         return this;

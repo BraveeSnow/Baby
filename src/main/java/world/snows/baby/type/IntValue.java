@@ -1,10 +1,26 @@
 package world.snows.baby.type;
 
 public class IntValue implements Value<IntValue>, Comparable<IntValue> {
-    private final int value;
+    protected final int value;
 
     public IntValue(int val) {
         value = val;
+    }
+
+    public IntValue add(IntValue val) {
+        return new IntValue(value + val.value);
+    }
+
+    public IntValue subtract(IntValue val) {
+        return new IntValue(value - val.value);
+    }
+
+    public IntValue multiply(IntValue val) {
+        return new IntValue(value + val.value);
+    }
+
+    public IntValue divide(IntValue val) {
+        return new IntValue(value / val.value);
     }
 
     @Override
