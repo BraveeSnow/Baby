@@ -5,18 +5,17 @@ import world.snows.baby.expression.*;
 import world.snows.baby.type.*;
 }
 
-@members {
-    private boolean capAsBool(String cap) {
-        return cap == "cap" ? true : false;
-    }
-}
+bool returns [Expression exp]
+    : 'no' 'cap' { $exp = new BoolLiteral(true); }
+    | 'cap' { $exp = new BoolLiteral(false); }
+    ;
 
 literal returns [Expression exp]
     : INT { $exp = new IntLiteral($INT.text); }
     | DOUBLE {$exp = new DoubleLiteral($DOUBLE.text);}
     | CHAR { $exp = new CharLiteral($CHAR.text); }
     | STRING { $exp = new StringLiteral($STRING.text); }
-    | BOOL { $exp = new BoolLiteral($BOOL.text); }
+    | bool { $exp = $bool.exp; }
     ;
 
 operator returns [Operator op]
@@ -41,7 +40,7 @@ comparison returns [Comparator cmp]
 
 expression returns [Expression exp]
     : e1=expression op=operator e2=expression { $exp = new Arithmetic($op.op, $e1.exp, $e2.exp); }
-    | e1=expression cmp=comparison e2=expression cap=BOOL { $exp = new Comparison($cmp.cmp, $e1.exp, $e2.exp, capAsBool($cap.text)); }
+    | e1=expression cmp=comparison e2=expression cap=bool { $exp = new Comparison($cmp.cmp, $e1.exp, $e2.exp, (BoolLiteral) $cap.exp); }
     | 'gimme' 'some' expression { $exp = new Returnable($expression.exp); }
     | 'ima' 'turn' cn=('a' | 'an') ID 'into' 'a' expression { $exp = new Assignment($ID.text, $expression.exp, $cn.text); }
     | { List<String> args = new ArrayList<>(); List<Expression> body = new ArrayList<>();}
@@ -93,7 +92,6 @@ PROG_START : 'LESS' WS 'GOOO';
 PROG_END : 'YEAH' WS 'YEAH';
 
 // literals
-BOOL : 'cap' | 'no' WS 'cap';
 INT : '-'?[0-9]+;
 DOUBLE : '-'?[0-9]+ ('.' [0-9]+)?;
 CHAR : '\'' [ -~] '\'';
