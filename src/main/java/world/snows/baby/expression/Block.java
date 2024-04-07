@@ -23,7 +23,13 @@ public class Block implements Expression {
 
         for (Expression expr : expressions) {
             Value<? extends Value<?>> val = expr.evaluate(inter);
+            if (expr instanceof Conditional && !val.getClass().equals(NullValue.class)) {
+                return val;
+            }
             returnValue = expr instanceof Returnable ? val : returnValue;
+            if (!returnValue.getClass().equals(NullValue.class)){
+                return returnValue;
+            }
         }
 
         return returnValue;
