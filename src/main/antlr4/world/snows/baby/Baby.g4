@@ -55,6 +55,27 @@ expression returns [Expression exp]
     | array { $exp = $array.exp; }
     | ID { $exp = new Dereference($ID.text); }
     | 'ima' 'turn' cn=('a'|'an') ID 'into' 'a' array {$exp = new Assignment($ID.text, $array.exp, $cn.text);}
+    | 'ima' 'pop' INT 'from' ID {
+       ArrayList<Expression> temp = new ArrayList<>();
+       temp.add(new Dereference($ID.text));
+       temp.add(new IntLiteral($INT.text));
+       $exp = new Invocation("pop", temp);}
+    | 'ima' 'add' literal 'to' ID {
+       ArrayList<Expression> temp = new ArrayList<>();
+       temp.add(new Dereference($ID.text));
+       temp.add($literal.exp);
+       $exp = new Invocation("Add", temp);}
+    | 'ima' 'replace' INT 'with' literal 'in' ID {
+       ArrayList<Expression> temp = new ArrayList<>();
+       temp.add(new Dereference($ID.text));
+       temp.add(new IntLiteral($INT.text));
+       temp.add($literal.exp);
+       $exp = new Invocation("Replace", temp);}
+    | 'ima' 'get' INT 'from' ID {
+       ArrayList<Expression> temp = new ArrayList<>();
+       temp.add(new Dereference($ID.text));
+       temp.add(new IntLiteral($INT.text));
+       $exp = new Invocation("Get", temp);}
     ;
 
 conditional returns [Expression exp]

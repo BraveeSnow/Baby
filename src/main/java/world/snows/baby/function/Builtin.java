@@ -14,6 +14,10 @@ public class Builtin {
     static {
         functions = new HashMap<>();
         functions.put("print", new BufferOut());
+        functions.put("pop", new pop());
+        functions.put("Add", new Add());
+        functions.put("Replace", new Replace());
+        functions.put("Get", new Get());
     }
 
     public static Value<? extends Value<?>> call(Interpreter inter, String identifier, List<Expression> args) throws Exception {

@@ -25,6 +25,16 @@ public class ListExpression implements Expression {
         value = new ListValue(Value);
     }
 
+    public Expression getIndex(int index){
+        return value.getIndex(index);
+    }
+    public void setIndex(int index, Expression ex){
+        value.setIndex(index, ex);
+    }
+    public void removeIndex(int index){
+        value.removeIndex(index);
+    }
+
     @Override
     public Value<? extends Value<?>> evaluate(Interpreter inter) throws Exception {
         return value;

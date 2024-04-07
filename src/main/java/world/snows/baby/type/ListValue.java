@@ -36,4 +36,18 @@ public class ListValue implements Value<ListValue>, Iterable<Expression> {
     public Spliterator<Expression> spliterator() {
         return value.spliterator();
     }
+    public Expression getIndex(int index){
+        return value.get(index);
+    }
+
+    public void setIndex(int index, Expression ex){
+        value.set(index, ex);
+    }
+
+    public Expression removeIndex(int index){
+        return value.remove(index);
+    }
+    public void add(Expression ex){
+        value.add(ex);
+    }
 }
