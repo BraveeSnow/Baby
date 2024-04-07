@@ -16,7 +16,7 @@ public class IntValue implements Value<IntValue>, Comparable<IntValue> {
     }
 
     public IntValue multiply(IntValue val) {
-        return new IntValue(value + val.value);
+        return new IntValue(value * val.value);
     }
 
     public IntValue divide(IntValue val) {

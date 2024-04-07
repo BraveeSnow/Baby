@@ -7,7 +7,7 @@ import world.snows.baby.type.*;
 
 @members {
     private boolean capAsBool(String cap) {
-        return cap == "cap" ? false : true;
+        return cap == "cap" ? true : false;
     }
 }
 
