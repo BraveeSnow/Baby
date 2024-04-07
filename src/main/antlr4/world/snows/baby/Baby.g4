@@ -86,12 +86,12 @@ PROG_END : 'YEAH' WS 'YEAH';
 
 // literals
 BOOL : 'cap' | 'no' WS 'cap';
-INT : [0-9]+;
-DOUBLE : [0-9]+ ('.' [0-9]+)?;
+INT : '-'?[0-9]+;
+DOUBLE : '-'?[0-9]+ ('.' [0-9]+)?;
 CHAR : '\'' [ -~] '\'';
 STRING : '"' ~'"' '"';
 
 // stuff that should be left on the very bottom
 ID : [a-zA-Z_] [a-zA-Z0-9_]*;
 
-COMMENT : ':)' ~'\n' -> skip;
+COMMENT : ':)' ~'\n'* -> skip;
