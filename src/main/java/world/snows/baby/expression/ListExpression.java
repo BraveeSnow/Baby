@@ -6,22 +6,22 @@ import world.snows.baby.type.Value;
 
 import java.util.ArrayList;
 
-public class ListExpression implements  Expression{
-    private ListValue value;
+public class ListExpression implements Expression {
+    private final ListValue value;
 
-    public ListExpression(){
+    public ListExpression() {
         value = new ListValue(new ArrayList<>());
     }
-    public ListExpression(int low, int high){
-        System.out.println(low);
-        System.out.println(high);
-        ArrayList<Expression> v = new  ArrayList<>();
+
+    public ListExpression(int low, int high) {
+        ArrayList<Expression> v = new ArrayList<>();
         for (int i = low; i < high; i++) {
             v.add(new IntLiteral(String.valueOf(i)));
         }
         value = new ListValue(v);
     }
-    public ListExpression(ArrayList<Expression> Value){
+
+    public ListExpression(ArrayList<Expression> Value) {
         value = new ListValue(Value);
     }
 

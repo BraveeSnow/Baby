@@ -14,9 +14,13 @@ public class Assignment implements Expression {
     private final String identifier;
     private final Expression assignable;
 
-    public Assignment(String name, Expression expr, String connector) {
+    public Assignment(String name, Expression expr) {
         identifier = name;
         assignable = expr;
+    }
+
+    public Assignment(String name, Expression expr, String connector) {
+        this(name, expr);
 
         if ((VOWELS.indexOf(name.charAt(0)) == -1) == Objects.equals(connector, "an")) {
             LOGGER.warn("Incorrect grammar in assignment of {}, please use '{}' instead.", identifier, connector.equals("an") ? "a" : "an");

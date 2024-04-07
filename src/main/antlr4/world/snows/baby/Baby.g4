@@ -52,6 +52,7 @@ expression returns [Expression exp]
       'tryna' ID 'with' (e1=expression { args.add($e1.exp); } (',' e2=expression { args.add($e2.exp); })*)? 'rn'
       { $exp = new Invocation($ID.text, args); }
     | literal { $exp = $literal.exp; }
+    | array { $exp = $array.exp; }
     | ID { $exp = new Dereference($ID.text); }
     | 'ima' 'turn' cn=('a'|'an') ID 'into' 'a' array {$exp = new Assignment($ID.text, $array.exp, $cn.text);}
     ;
@@ -74,6 +75,11 @@ loop returns [Expression exp]
       (e=expression { exprs.add($e.exp); })*
       'yeah'
       { $exp = new WhileLoop($cnd.exp, exprs); }
+    | { List<Expression> exprs = new ArrayList<>(); }
+      'for' 'every' ID 'in' ls=expression
+      (e=expression { exprs.add($e.exp); })*
+      'yeah'
+      { $exp = new ForLoop($ID.text, $ls.exp, exprs); }
     ;
 
 statement returns [Expression exp]
