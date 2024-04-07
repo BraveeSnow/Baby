@@ -2,15 +2,11 @@ LESS GOOO
 
 ima turn a factorial into a function
 with n
-    ima turn a fact into a 1
-    ima turn an i into a 1
-
-    while i more than n cap
-        ima turn a fact into a fact * i
-        ima turn an i into a i + 1
+    if n be 1 no cap
+        gimme some 1
     yeah
 
-    gimme some fact
+    gimme some n * tryna factorial with n - 1 rn
 yeah
 
 tryna print with tryna factorial with 5 rn rn
