@@ -68,7 +68,12 @@ loop returns [Expression exp]
       'ima' 'do' 'this' 'rq'
       (e=expression { exprs.add($e.exp); })*
       'while' cnd=expression
-      { $exp = new Loop($cnd.exp, exprs); }
+      { $exp = new DoWhileLoop($cnd.exp, exprs); }
+    | { List<Expression> exprs = new ArrayList<>(); }
+      'while' cnd=expression
+      (e=expression { exprs.add($e.exp); })*
+      'yeah'
+      { $exp = new WhileLoop($cnd.exp, exprs); }
     ;
 
 statement returns [Expression exp]

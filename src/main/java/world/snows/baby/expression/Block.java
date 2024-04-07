@@ -7,7 +7,7 @@ import world.snows.baby.type.Value;
 import java.util.List;
 
 public class Block implements Expression {
-    private final List<Expression> expressions;
+    protected final List<Expression> expressions;
 
     public Block(List<Expression> exprs) {
         expressions = exprs;
