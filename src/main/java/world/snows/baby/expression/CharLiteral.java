@@ -16,4 +16,9 @@ public class CharLiteral implements Expression {
     public Value<? extends Value<?>> evaluate(Interpreter inter) {
         return value;
     }
+
+    @Override
+    public String toString(){
+        return value.toString();
+    }
 }

@@ -26,6 +26,13 @@ operator returns [Operator op]
     | '/' { $op = Operator.DIVIDE; }
     ;
 
+array returns [Expression exp]
+    :'convertible' {$exp = new ListExpression();}
+    |i1 = INT 'to' i2 = INT {$exp = new ListExpression(Integer.parseInt($i1.text), Integer.parseInt($i2.text));}
+    |{ArrayList<Expression> vals = new ArrayList<>();}
+     '('a1 = literal{ vals.add($a1.exp); } (',' a2 = literal { vals.add($a2.exp); })*')' {$exp = new ListExpression(vals);}
+    ;
+
 comparison returns [Comparator cmp]
     : 'be' { $cmp = Comparator.EQUAL; }
     | 'more' 'than' { $cmp = Comparator.GREATER; }
@@ -47,6 +54,7 @@ expression returns [Expression exp]
       { $exp = new Invocation($ID.text, args); }
     | literal { $exp = $literal.exp; }
     | ID { $exp = new Dereference($ID.text); }
+    | 'ima' 'turn' cn=('a'|'an') ID 'into' 'a' array {$exp = new Assignment($ID.text, $array.exp, $cn.text);}
     ;
 
 conditional returns [Expression exp]
@@ -89,7 +97,7 @@ BOOL : 'cap' | 'no' WS 'cap';
 INT : '-'?[0-9]+;
 DOUBLE : '-'?[0-9]+ ('.' [0-9]+)?;
 CHAR : '\'' [ -~] '\'';
-STRING : '"' ~'"' '"';
+STRING : '"' (~'"')+ '"';
 
 // stuff that should be left on the very bottom
 ID : [a-zA-Z_] [a-zA-Z0-9_]*;

@@ -15,4 +15,9 @@ public class IntLiteral implements Expression {
     public Value<? extends Value<?>> evaluate(Interpreter inter) {
         return data;
     }
+
+    @Override
+    public String toString(){
+        return data.toString();
+    }
 }

@@ -5,19 +5,24 @@ import world.snows.baby.type.BoolValue;
 import world.snows.baby.type.Value;
 
 public class BoolLiteral implements Expression{
-    private final BoolValue data;
+    private final BoolValue value;
 
     public BoolLiteral(String lexeme){
         if (lexeme.equals("cap")) {
-            data = new BoolValue(false);
+            value = new BoolValue(false);
         } else {
-            data = new BoolValue(true);
+            value = new BoolValue(true);
         }
 
     }
 
     @Override
     public Value<? extends Value<?>> evaluate(Interpreter inter) {
-        return data;
+        return value;
+    }
+
+    @Override
+    public String toString(){
+        return value.toString();
     }
 }
