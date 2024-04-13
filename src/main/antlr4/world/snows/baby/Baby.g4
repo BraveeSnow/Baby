@@ -51,6 +51,7 @@ expression returns [Expression exp]
     | { List<Expression> args = new ArrayList<>(); }
       'tryna' ID 'with' (e1=expression { args.add($e1.exp); } (',' e2=expression { args.add($e2.exp); })*)? 'rn'
       { $exp = new Invocation($ID.text, args); }
+    | 'ima' 'hit' 'up' ID { $exp = new ExternalReference($ID.text); }
     | literal { $exp = $literal.exp; }
     | array { $exp = $array.exp; }
     | ID { $exp = new Dereference($ID.text); }
