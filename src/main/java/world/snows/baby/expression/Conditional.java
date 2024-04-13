@@ -7,22 +7,30 @@ import world.snows.baby.type.Value;
 
 import java.util.List;
 
-public class Conditional extends Block {
-    private final Expression condition;
+public class Conditional /*extends Block*/ implements Expression {
+    private final List<Expression> conditions;
+    private final List<List<Expression>> bodys;
+    private final List<Expression> or;
 
-    public Conditional(Expression conditional, List<Expression> exprs) {
-        super(exprs);
-        condition = conditional;
+    public Conditional(List<Expression> conditionals, List<List<Expression>> exprs, List<Expression> Or) {
+        conditions = conditionals;
+        bodys = exprs;
+        or = Or;
     }
 
     @Override
     public Value<? extends Value<?>> evaluate(Interpreter inter) throws Exception {
-        Value<? extends Value<?>> val = condition.evaluate(inter);
+        for (int condNum = 0; condNum < conditions.size(); condNum++) {
+            Value<? extends Value<?>> val = conditions.get(condNum).evaluate(inter);
 
-        if (val instanceof BoolValue && ((BoolValue) val).isTrue()) {
-            return super.evaluate(inter);
+            if (val instanceof BoolValue && ((BoolValue) val).isTrue()) {
+                Block block = new Block(bodys.get(condNum));
+                return block.evaluate(inter);
+            }
         }
 
-        return new NullValue();
+        Block block = new Block(or);
+
+        return block.evaluate(inter);
     }
 }

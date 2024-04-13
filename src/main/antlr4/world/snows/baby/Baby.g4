@@ -80,10 +80,20 @@ expression returns [Expression exp]
     ;
 
 conditional returns [Expression exp]
-    : { List<Expression> exprs = new ArrayList<>(); }
-      'if' cnd=expression
+    : { List<List<Expression>> bodys = new ArrayList<>(); List<Expression> conds = new ArrayList<>();}
+      {List<Expression> exprs = new ArrayList<>();}
+      'if' cnd=expression {conds.add($cnd.exp);}
       (statement { exprs.add($statement.exp); })*
-      'yeah' { $exp = new Conditional($cnd.exp, exprs); }
+      'yeah' {bodys.add(exprs);}
+      ({List<Expression> exprs2 = new ArrayList<>();}
+      'or' 'if' cnd2=expression {conds.add($cnd2.exp);}
+      (statement { exprs2.add($statement.exp); })*
+      'yeah' {bodys.add(exprs2);} )*
+      {List<Expression> Or = new ArrayList<>();}
+      ('or'
+      (statement { Or.add($statement.exp); })*
+      'yeah')?
+      { $exp = new Conditional(conds, bodys, Or); }
     ;
 
 loop returns [Expression exp]
